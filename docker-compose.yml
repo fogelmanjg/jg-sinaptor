@@ -83,9 +83,9 @@ services:
     healthcheck:
       test: /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
       interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
     restart: unless-stopped
 
   frontend:
