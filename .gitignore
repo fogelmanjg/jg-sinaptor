@@ -1,0 +1,19 @@
+# env
+.env
+
+# datos de contenedores
+data/
+
+# backend
+backend/node_modules/
+backend/dist/
+backend/.angular/
+
+# frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# misc
+*.log
+.DS_Store
