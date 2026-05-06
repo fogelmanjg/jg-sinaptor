@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  @Get('api')
+  @Get()
   health() {
     return { status: 'ok', service: 'jg-sinaptor-backend' };
   }

@@ -35,7 +35,7 @@ export class GatewayPublisherService {
     }
   }
 
-  private buildHeaders(timestamp: string, method: string, path: string, body: string) {
+  private buildHeaders(timestamp: string, method: string, path: string, body: string): Record<string, string> {
     if (!this.secret) return {};
     const bodyHash = createHash('sha256').update(body).digest('hex');
     const payload = `${timestamp}:${method.toUpperCase()}:${path}:${bodyHash}`;

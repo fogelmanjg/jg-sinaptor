@@ -14,12 +14,19 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   async onModuleInit() {
+    // Arrancar en background para no bloquear el startup de la app
+    this.connect().catch((err: unknown) => {
+      this.logger.error(`Kafka fatal: ${(err as Error).message}`);
+    });
+  }
+
+  private async connect() {
     const brokers = this.config.get<string[]>('kafka.brokers')!;
     const clientId = this.config.get<string>('kafka.clientId')!;
     const groupId = this.config.get<string>('kafka.groupId')!;
     const topics = this.config.get<string[]>('kafka.topics')!;
 
-    const kafka = new Kafka({ clientId, brokers, retry: { initialRetryTime: 1000, retries: 10 } });
+    const kafka = new Kafka({ clientId, brokers, retry: { initialRetryTime: 2000, retries: 15 } });
     this.consumer = kafka.consumer({ groupId });
 
     try {
