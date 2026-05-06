@@ -1,0 +1,139 @@
+.page {
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.back-bar { margin-bottom: 1.25rem; }
+
+.back-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.875rem;
+  &:hover { text-decoration: underline; }
+}
+
+.loading, .error-banner {
+  padding: 3rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.error-banner {
+  background: #3b1c1c;
+  border: 1px solid #7f2222;
+  color: #fca5a5;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+}
+
+.header-card {
+  grid-column: 1 / -1;
+}
+
+.col-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.col-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.header-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.event-type {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  font-family: monospace;
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+.dl {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 0.35rem 0.75rem;
+  margin: 0;
+  font-size: 0.85rem;
+
+  dt {
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding-top: 0.05rem;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--text);
+    word-break: break-all;
+  }
+}
+
+.data-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.json-block {
+  background: #0a0c14;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #a5d6a7;
+  overflow: auto;
+  flex: 1;
+  margin: 0;
+  white-space: pre;
+  min-height: 200px;
+}
+
+.badge {
+  background: #1e1f3b;
+  color: #a5b4fc;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+.mono { font-family: monospace; font-size: 0.82rem; }
+.muted { color: var(--muted); font-size: 0.82rem; }

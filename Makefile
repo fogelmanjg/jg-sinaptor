@@ -5,6 +5,8 @@ COMPOSE = docker compose
 help:
 	@echo "jg-sinaptor — Bus de Eventos"
 	@echo ""
+	@echo "  Puertos: frontend=9050  backend=9052  akhq=9053  mongo=9056  kafka=9058"
+	@echo ""
 	@echo "  make up           Levantar todos los servicios"
 	@echo "  make down         Detener servicios"
 	@echo "  make logs         Ver logs"

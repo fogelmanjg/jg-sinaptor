@@ -88,6 +88,19 @@ services:
       start_period: 30s
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "${FRONTEND_PORT:-9050}:4200"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      <<: *common-env
+    restart: unless-stopped
+
   akhq:
     image: tchiotludo/akhq:0.24.0
     ports:

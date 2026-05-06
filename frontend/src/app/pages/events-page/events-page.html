@@ -1,0 +1,88 @@
+<div class="page">
+  <!-- Stats bar -->
+  @if (stats()) {
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-value">{{ stats()!.total }}</span>
+        <span class="stat-label">Total</span>
+      </div>
+      @for (entry of objectEntries(stats()!.bySource); track entry[0]) {
+        <div class="stat">
+          <span class="stat-value">{{ entry[1] }}</span>
+          <span class="stat-label">{{ entry[0] }}</span>
+        </div>
+      }
+      <div class="stat-spacer"></div>
+      <div class="connection-badge" [class.connected]="connected()">
+        <span class="dot"></span>
+        {{ connected() ? 'Live' : 'Offline' }}
+      </div>
+    </div>
+  }
+
+  <!-- Filters -->
+  <div class="filters">
+    <div class="filter-group">
+      <label>Desde</label>
+      <input type="date" [(ngModel)]="filters.startDate" />
+    </div>
+    <div class="filter-group">
+      <label>Hasta</label>
+      <input type="date" [(ngModel)]="filters.endDate" />
+    </div>
+    <div class="filter-group">
+      <label>Tipo</label>
+      <input type="text" [(ngModel)]="filters.eventType" placeholder="ej. UserCreated" />
+    </div>
+    <div class="filter-group">
+      <label>Servicio</label>
+      <input type="text" [(ngModel)]="filters.source" placeholder="ej. botellas" />
+    </div>
+    <button class="btn-primary" (click)="loadEvents()" [disabled]="loading()">
+      {{ loading() ? 'Cargando...' : 'Buscar' }}
+    </button>
+  </div>
+
+  <!-- Error -->
+  @if (error()) {
+    <div class="error-banner">{{ error() }}</div>
+  }
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table class="events-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Tipo</th>
+          <th>Servicio</th>
+          <th>Agregado</th>
+          <th>ID Agregado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (loading() && events().length === 0) {
+          <tr><td colspan="6" class="empty">Cargando...</td></tr>
+        } @else if (events().length === 0) {
+          <tr><td colspan="6" class="empty">Sin eventos en el rango seleccionado</td></tr>
+        } @else {
+          @for (event of events(); track event.id) {
+            <tr>
+              <td class="mono">{{ event.timestamp | date:'dd/MM HH:mm:ss' }}</td>
+              <td><span class="badge">{{ event.eventType }}</span></td>
+              <td>{{ event.source }}</td>
+              <td class="muted">{{ event.aggregateType }}</td>
+              <td class="mono muted">{{ event.aggregateId }}</td>
+              <td><a [routerLink]="['/events', event.id]" class="link">ver</a></td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (events().length > 0) {
+    <div class="table-footer">{{ events().length }} eventos</div>
+  }
+</div>

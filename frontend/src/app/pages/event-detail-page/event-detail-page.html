@@ -1,0 +1,79 @@
+<div class="page">
+  <div class="back-bar">
+    <a routerLink="/" class="back-link">← Volver a eventos</a>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Cargando...</div>
+  } @else if (error()) {
+    <div class="error-banner">{{ error() }}</div>
+  } @else if (event()) {
+    <div class="detail-grid">
+      <!-- Header -->
+      <div class="card header-card">
+        <h1 class="event-type">{{ event()!.eventType }}</h1>
+        <div class="header-meta">
+          <span class="badge">{{ event()!.source }}</span>
+          <span class="muted">{{ event()!.timestamp | date:'dd/MM/yyyy HH:mm:ss.SSS' }}</span>
+          <span class="muted">v{{ event()!.schemaVersion }}</span>
+        </div>
+      </div>
+
+      <!-- Left column -->
+      <div class="col-left">
+        <div class="card">
+          <h2 class="section-title">Agregado</h2>
+          <dl class="dl">
+            <dt>Tipo</dt><dd>{{ event()!.aggregateType }}</dd>
+            <dt>ID</dt><dd class="mono">{{ event()!.aggregateId }}</dd>
+          </dl>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">Origen</h2>
+          <dl class="dl">
+            <dt>Servicio</dt><dd>{{ event()!.source }}</dd>
+            @if (event()!.sourceInstance) {
+              <dt>Instancia</dt><dd class="mono">{{ event()!.sourceInstance }}</dd>
+            }
+          </dl>
+        </div>
+
+        @if (event()!.correlationId || event()!.causationId || event()!.userId) {
+          <div class="card">
+            <h2 class="section-title">Contexto</h2>
+            <dl class="dl">
+              @if (event()!.correlationId) {
+                <dt>Correlation</dt><dd class="mono">{{ event()!.correlationId }}</dd>
+              }
+              @if (event()!.causationId) {
+                <dt>Causation</dt><dd class="mono">{{ event()!.causationId }}</dd>
+              }
+              @if (event()!.userId) {
+                <dt>Usuario</dt><dd class="mono">{{ event()!.userId }}</dd>
+              }
+            </dl>
+          </div>
+        }
+
+        <div class="card">
+          <h2 class="section-title">Kafka</h2>
+          <dl class="dl">
+            <dt>Topic</dt><dd class="mono">{{ event()!.topic }}</dd>
+            <dt>Partición</dt><dd>{{ event()!.partition }}</dd>
+            <dt>Offset</dt><dd>{{ event()!.offset }}</dd>
+            <dt>Recibido</dt><dd>{{ event()!.receivedAt | date:'dd/MM/yyyy HH:mm:ss' }}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Right column: data payload -->
+      <div class="col-right">
+        <div class="card data-card">
+          <h2 class="section-title">Payload</h2>
+          <pre class="json-block">{{ formatJson(event()!.data) }}</pre>
+        </div>
+      </div>
+    </div>
+  }
+</div>
