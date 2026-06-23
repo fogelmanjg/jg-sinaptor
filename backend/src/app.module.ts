@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { EventsModule } from './events/events.module';
 import { KafkaModule } from './kafka/kafka.module';
+import { IngestModule } from './ingest/ingest.module';
 import config from './config';
 
 @Module({
@@ -15,6 +16,7 @@ import config from './config';
     }),
     EventsModule,
     KafkaModule,
+    IngestModule,
   ],
   controllers: [AppController],
 })

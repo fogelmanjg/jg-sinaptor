@@ -9,7 +9,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     ports:
-      - "${BACKEND_PORT:-9052}:3000"
+      - "127.0.0.1:${BACKEND_PORT:-9052}:3000"
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -23,11 +23,13 @@ services:
       MONGO_USER: ${MONGO_USER:-sinaptor}
       MONGO_PASS: ${MONGO_PASS:-sinaptor123}
       KAFKA_BROKERS: kafka:9092
-      KAFKA_TOPICS: ${KAFKA_TOPICS:-botellas-events,tunnels-events,dlq-events}
-      GATEWAY_WS_URL: ${GATEWAY_WS_URL:-}
+      KAFKA_TOPICS: ${KAFKA_TOPICS:-botellas-events,tunnels-events,dlq-events,keycloak-events}
+      GATEWAY_WS_URL: ${GATEWAY_WS_URL:-http://shell-gw-shell-gw-1:3000}
       ETER_INTERNAL_SECRET: ${ETER_INTERNAL_SECRET:-}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      INGEST_SECRET: ${INGEST_SECRET:-}
+    networks:
+      - default
+      - shell-gw
     depends_on:
       mongodb:
         condition: service_healthy
@@ -44,7 +46,7 @@ services:
   mongodb:
     image: mongo:7
     ports:
-      - "${MONGODB_PORT:-9056}:27017"
+      - "127.0.0.1:${MONGODB_PORT:-9056}:27017"
     volumes:
       - ./data/mongodb:/data/db
     environment:
@@ -62,7 +64,7 @@ services:
   kafka:
     image: apache/kafka:3.7.0
     ports:
-      - "${KAFKA_PORT:-9058}:9094"
+      - "127.0.0.1:${KAFKA_PORT:-9058}:9094"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
@@ -93,7 +95,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     ports:
-      - "${FRONTEND_PORT:-9050}:4200"
+      - "127.0.0.1:${FRONTEND_PORT:-9050}:4200"
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -104,7 +106,7 @@ services:
   akhq:
     image: tchiotludo/akhq:0.24.0
     ports:
-      - "${AKHQ_PORT:-9053}:8080"
+      - "127.0.0.1:${AKHQ_PORT:-9053}:8080"
     environment:
       AKHQ_CONFIGURATION: |
         akhq:
@@ -120,3 +122,6 @@ services:
 networks:
   default:
     name: ${APP_NAME:-jg-sinaptor}-${ENVIRONMENT:-dev}-network
+  shell-gw:
+    external: true
+    name: shell-gw_default

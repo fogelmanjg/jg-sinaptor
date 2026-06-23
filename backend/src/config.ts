@@ -24,4 +24,8 @@ export default () => ({
     wsUrl: process.env.GATEWAY_WS_URL ?? null,
     internalSecret: process.env.ETER_INTERNAL_SECRET ?? '',
   },
+
+  ingest: {
+    secret: process.env.INGEST_SECRET ?? '',
+  },
 });
